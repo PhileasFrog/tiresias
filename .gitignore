@@ -1,6 +1,10 @@
 # data Andra
-data_andra/
+data_andra/img/ocr/*
+data_andra/img/detection/*
+data_andra/shapefile/*
 custom_andra/__pycache__
+model_andra/*
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

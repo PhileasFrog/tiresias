@@ -1,8 +1,8 @@
 OCR_CONFIG = { 
     "det": './configs/textdet/dbnet/dbnet_resnet50-oclip_1200e_icdar2015.py', 
-    "det_weights": './data_andra/model/dbnetpp_resnet50-oclip_fpnc_1200e_icdar2015_20221101_124139-4ecb39ac.pth',
+    "det_weights": './model_andra/dbnetpp_resnet50-oclip_fpnc_1200e_icdar2015_20221101_124139-4ecb39ac.pth',
     "rec": './configs/textrecog/svtr/svtr-small_20e_st_mj.py',
-    "rec_weights": './data_andra/model/svtr-small_20e_st_mj-35d800d6.pth'
+    "rec_weights": './model_andra/svtr-small_20e_st_mj-35d800d6.pth'
 }
 
 OCR_ALLOW_INPUT = {".jpg", ".JPG", ".jpeg", ".JPEG"}
