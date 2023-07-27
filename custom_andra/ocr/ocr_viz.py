@@ -3,7 +3,7 @@ import matplotlib.patches as mpatches
 import geopandas as gpd
 import pandas as pd
 from PIL import Image
-from custom_andra.ocr import OCR_DISPLAY_VAR
+from config_andra import OCR_DISPLAY_VAR
 import custom_andra.utils.geo_info
 import shapely.ops
 

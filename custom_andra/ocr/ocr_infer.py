@@ -1,6 +1,6 @@
 import pandas as pd
 from mmocr.apis import MMOCRInferencer
-from data_andra.config import OCR_CONFIG
+from config_andra import OCR_CONFIG
 from typing import Dict, Optional
 
 
