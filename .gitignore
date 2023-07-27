@@ -6,6 +6,7 @@ tiresias/__pycache__
 tiresias/model/*.pth
 
 
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -151,4 +152,3 @@ mmocr/.mim
 workdirs/
 .history/
 .dev/
-data/
