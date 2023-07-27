@@ -1,9 +1,9 @@
-# data Andra
-data_andra/img/ocr/*
-data_andra/img/detection/*
-data_andra/shapefile/*
-custom_andra/__pycache__
-model_andra/*.pth
+# data and model tiresias
+tiresias/data/img/ocr/*
+tiresias/data/img/detection/*
+tiresias/data/shapefile/*
+tiresias/__pycache__
+tiresias/model/*.pth
 
 
 # Byte-compiled / optimized / DLL files

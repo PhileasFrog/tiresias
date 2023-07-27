@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from typing import Union, List, Dict
 import shapely.ops
-from data_andra import LABO_GALERIE_SHAPEFILE 
+from tiresias.data import LABO_GALERIE_SHAPEFILE
 
 
 FILEPATH = LABO_GALERIE_SHAPEFILE['filepath']

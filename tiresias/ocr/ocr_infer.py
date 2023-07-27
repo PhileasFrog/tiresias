@@ -1,6 +1,6 @@
 import pandas as pd
 from mmocr.apis import MMOCRInferencer
-from config_andra import OCR_CONFIG
+from tiresias.config import OCR_CONFIG
 from typing import Dict, Optional
 
 

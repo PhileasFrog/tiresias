@@ -3,8 +3,8 @@ import matplotlib.patches as mpatches
 import geopandas as gpd
 import pandas as pd
 from PIL import Image
-from config_andra import OCR_DISPLAY_VAR
-import custom_andra.utils.geo_info
+from tiresias.config import OCR_DISPLAY_VAR
+import tiresias.utils.geo_info
 import shapely.ops
 
 
@@ -49,7 +49,7 @@ def ocr_figure_map_unique(ax, galerie_gdf: gpd.GeoDataFrame, detected_galerie_na
 
 
     if neighbors_display:
-        neighbors = custom_andra.utils.geo_info.get_neighbors(galerie_gdf)
+        neighbors = tiresias.utils.geo_info.get_neighbors(galerie_gdf)
         neighbors = neighbors[detected_galerie_name]
         for neighbor in neighbors:
             neighbor_gdf = galerie_gdf.loc[galerie_gdf[COLUMN_ID] == neighbor].geometry

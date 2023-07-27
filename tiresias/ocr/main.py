@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from PIL import Image
 
-import custom_andra.utils.geo_info
-from custom_andra.ocr import OCR_ALLOW_INPUT
-import custom_andra.utils.data
-import custom_andra.ocr.ocr_infer
-import custom_andra.ocr.ocr_viz
-from data_andra import LABO_GALERIE_SHAPEFILE
+import tiresias.utils.geo_info
+from tiresias.config import OCR_ALLOW_INPUT, OCR_CONFIG
+import tiresias.utils.data
+import tiresias.ocr.ocr_infer
+import tiresias.ocr.ocr_viz
+from tiresias.data import LABO_GALERIE_SHAPEFILE
 
 import matplotlib.pyplot as plt
 from typing import Optional
@@ -47,27 +47,28 @@ def test_galerie_unique(ocr_pred_galerie_df: pd.DataFrame) -> bool:
     return ocr_pred_galerie_df.rec_texts.unique().size == 1
 
 
+#OCR_DOM = tiresias.ocr.ocr_infer.load_ocr_inferencer(device='cuda')
 
 
-
-OCR_DOM = custom_andra.ocr.ocr_infer.load_ocr_inferencer()
-
-
-def main(image_path: str, ocr = OCR_DOM):
+def main(image_path: str, device: str ='cpu', ocr_config: dict = OCR_CONFIG):
     # load data path
-    paths = custom_andra.utils.data.get_path_from_input(input_path=image_path, allowed_extensions=OCR_ALLOW_INPUT)
-    _, galerie_gdf = custom_andra.utils.geo_info.load_shapefile()
+    paths = tiresias.utils.data.get_path_from_input(input_path=image_path, allowed_extensions=OCR_ALLOW_INPUT)
+    _, galerie_gdf = tiresias.utils.geo_info.load_shapefile()
     print(f"start ocr inference on {image_path}")
-    # # load pretrained ocr
-    # ocr = custom_andra.ocr.ocr_infer.load_ocr_inferencer()
+    # load pretrained ocr
+    det = ocr_config['det']
+    det_weights = ocr_config['det_weights']
+    rec = ocr_config['rec']
+    rec_weights = ocr_config['rec_weights']
+    ocr = tiresias.ocr.ocr_infer.load_ocr_inferencer(det=det, det_weights=det_weights, rec=rec, rec_weights=rec_weights, device=device)
     # inference
-    ocr_pred = custom_andra.ocr.ocr_infer.infer_ocr(image_path=image_path, mmocr=ocr)
+    ocr_pred = tiresias.ocr.ocr_infer.infer_ocr(image_path=image_path, mmocr=ocr)
     # case no detection
     if ocr_pred is None:
         print("No text detected")
         return
     # otherwise transform result in usable DF
-    ocr_pred_df = custom_andra.ocr.ocr_infer.ocr_predictions_to_df(ocr_pred)
+    ocr_pred_df = tiresias.ocr.ocr_infer.ocr_predictions_to_df(ocr_pred)
     # check if specific detection
     ocr_pred_galerie_df = get_galerie_ocr(ocr_pred_df=ocr_pred_df, galerie_name=galerie_gdf[COLUMN_ID_GALERIE])
     if ocr_pred_galerie_df is None:
@@ -77,7 +78,7 @@ def main(image_path: str, ocr = OCR_DOM):
         return
     if test_galerie_unique(ocr_pred_galerie_df=ocr_pred_galerie_df):
         detected_galerie_name = ocr_pred_galerie_df.rec_texts.unique()[0]
-        custom_andra.ocr.ocr_viz.plot_ocr_results(image_path=image_path, ocr_pred_galerie_df=ocr_pred_galerie_df, galerie_gdf=galerie_gdf, detected_galerie_name=detected_galerie_name)
+        tiresias.ocr.ocr_viz.plot_ocr_results(image_path=image_path, ocr_pred_galerie_df=ocr_pred_galerie_df, galerie_gdf=galerie_gdf, detected_galerie_name=detected_galerie_name)
     # # check if specific detection
     # ocr_pred_cintre = None
     # if ocr_pred_cintre is None and ocr_pred_galerie.rec_texts.unique().size == 1:
