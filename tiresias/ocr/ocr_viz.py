@@ -20,6 +20,7 @@ def ocr_figure_raw(ax, image_path: str):
     ax.set_yticks([])
     ax.set_title(f'{image_path}')
 
+
 def ocr_figure_detection(ax, image_path: str, ocr_pred_galerie_df: pd.DataFrame):
     ax.imshow(Image.open(image_path))
     for _, row in ocr_pred_galerie_df.iterrows():
@@ -68,8 +69,17 @@ def ocr_figure_map_unique(ax, galerie_gdf: gpd.GeoDataFrame, detected_galerie_na
 
 
 def plot_ocr_results(image_path: str, ocr_pred_galerie_df: pd.DataFrame, galerie_gdf: gpd.GeoDataFrame, detected_galerie_name: str):
+    """ Plot raw image versus OCR detection plus view of location from Labo."""
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(30, 20))
     ocr_figure_raw(ax1, image_path=image_path)
     ocr_figure_detection(ax2, image_path=image_path, ocr_pred_galerie_df=ocr_pred_galerie_df)
     ocr_figure_map_unique(ax3, galerie_gdf=galerie_gdf, detected_galerie_name=detected_galerie_name)
+    plt.show()
+
+
+def plot_ocr_results_raw(image_path: str, ocr_pred_df: pd.DataFrame):
+    """ Plot only raw image versus OCR detection wihtout taking into account specific info from Labo."""
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(30, 20))
+    ocr_figure_raw(ax1, image_path=image_path)
+    ocr_figure_detection(ax2, image_path=image_path, ocr_pred_galerie_df=ocr_pred_df)
     plt.show()
