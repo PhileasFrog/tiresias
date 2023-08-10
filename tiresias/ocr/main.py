@@ -63,11 +63,7 @@ def main(image_path: str, device: str ='cpu', ocr_config: dict = OCR_CONFIG):
     ocr = tiresias.ocr.ocr_infer.load_ocr_inferencer(det=det, det_weights=det_weights, rec=rec, rec_weights=rec_weights, device=device)
     # inference
     ocr_pred = tiresias.ocr.ocr_infer.infer_ocr(image_path=image_path, mmocr=ocr)
-    # case no detection
-    if ocr_pred is None:
-        print("No text detected")
-        return
-    # otherwise transform result in usable DF
+    # transform result in usable DF
     ocr_pred_df = tiresias.ocr.ocr_infer.ocr_predictions_to_df(ocr_pred)
     # check if specific detection
     ocr_pred_galerie_df = get_galerie_ocr(ocr_pred_df=ocr_pred_df, galerie_name=galerie_gdf[COLUMN_ID_GALERIE])

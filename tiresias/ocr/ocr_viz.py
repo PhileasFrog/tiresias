@@ -34,7 +34,7 @@ def ocr_figure_detection(ax, image_path: str, ocr_pred_galerie_df: pd.DataFrame)
         ax.annotate(f'{galerie_name}', xy=xy, fontsize=10, fontweight='bold', color='red')
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.set_title('Galerie detection')
+    ax.set_title('OCR detection')
 
 def ocr_figure_map_unique(ax, galerie_gdf: gpd.GeoDataFrame, detected_galerie_name: str, neighbors_display: bool =True, buffer_size: int = 10):
 

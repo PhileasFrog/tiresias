@@ -1,7 +1,9 @@
 import pandas as pd
+import time
+import tiresias.ocr.ocr_viz
 from mmocr.apis import MMOCRInferencer
 from tiresias.config import OCR_CONFIG
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 
 
 
@@ -64,6 +66,7 @@ def infer_ocr(image_path: str, mmocr: MMOCRInferencer) -> Optional[Dict[str, str
     """
     predictions = mmocr(inputs=image_path)
     if not predictions['predictions'][0]['rec_texts']:
+        print("No text detected")
         return None
     return predictions
 
@@ -100,3 +103,71 @@ def ocr_predictions_to_df(ocr_prediction: Dict[str, any]) -> Optional[pd.DataFra
         dfs.append(df)
     final_df = pd.concat(dfs, ignore_index=True)
     return final_df
+
+
+def test_perf_gpu_cpu(image_path: str, n_iter: int = 3):
+    """
+    Compare the performance of OCR inference on GPU and CPU for multiple iterations.
+
+    Parameters:
+    image_path (str): Path to the input image.
+    n_iter (int, optional): Number of iterations for testing. Default is 3.
+
+    Returns:
+    None
+    """
+    time_gpu = []
+    time_cpu = []
+
+    # Load OCR inference models for CPU and GPU
+    ocr_cpu = load_ocr_inferencer(device='cpu')
+    ocr_gpu = load_ocr_inferencer(device='cuda')
+
+    for i in range(n_iter):
+        # Measure GPU inference time
+        a = time.time()
+        ocr_gpu(image_path)
+        b = time.time()
+        print(f"GPU inference iteration {i} took {b - a} seconds")
+        time_gpu.append(b - a)
+
+        # Measure CPU inference time
+        a = time.time()
+        ocr_cpu(image_path)
+        b = time.time()
+        print(f"CPU inference iteration {i} took {b - a} seconds")
+        time_cpu.append(b - a)
+
+    # Calculate and display average inference times
+    avg_time_gpu = sum(time_gpu) / len(time_gpu)
+    avg_time_cpu = sum(time_cpu) / len(time_cpu)
+    print(f"Average GPU inference time: {avg_time_gpu} seconds")
+    print(f"Average CPU inference time: {avg_time_cpu} seconds")
+
+
+def infer_time_plot(image_path: str, ocr_infer: MMOCRInferencer, output_text: bool = False) -> Optional[List[str]]:
+    """
+    Perform OCR inference on an image, report the inference time, and display raw image alongside the image with detections.
+
+    Parameters:
+    image_path (str): Path to the input image.
+    ocr_infer (MMOCRInferencer): An instance of MMOCRInferencer with loaded OCR models.
+    output_text (bool, optional): Whether to output the recognized text. Default is False.
+
+    Returns:
+    Optional[List[str]]: A list of recognized text strings if output_text is True, otherwise None.
+    """
+    a = time.time()
+    ocr_pred = infer_ocr(image_path=image_path, mmocr=ocr_infer)
+    if ocr_pred is None:
+        return
+    
+    b = time.time()
+    print(f"Inference took {b - a} seconds")
+    
+    ocr_pred_df = ocr_predictions_to_df(ocr_pred)
+    tiresias.ocr.ocr_viz.plot_ocr_results_raw(image_path=image_path, ocr_pred_df=ocr_pred_df)
+    
+    if output_text:
+        rec_texts = [rec_text["rec_texts"] for rec_text in ocr_pred['predictions']][0][::-1]
+        return rec_texts
