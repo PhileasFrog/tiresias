@@ -1,5 +1,5 @@
 # data and model tiresias
-tiresias/data/img/ocr/*
+tiresias/data/img/ocr/private/*
 tiresias/data/img/detection/*
 tiresias/data/shapefile/*
 tiresias/__pycache__
