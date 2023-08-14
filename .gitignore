@@ -1,6 +1,7 @@
+tiresias/data/tutu/*
+
 # data and model tiresias
 tiresias/data/shapefile/private/*
-!tiresias/data/shapefile/private
 tiresias/data/img/detection/private/*
 !tiresias/data/img/detection/private
 tiresias/data/img/detection/exctincteur/*
