@@ -1,7 +1,7 @@
 # data and model tiresias
 tiresias/data/shapefile/private/*
 tiresias/data/img/detection/private/*
-tiresias/data/img/detection/exctincteur/*
+tiresias/data/img/detection/extincteur/*
 tiresias/data/img/ocr/private/*
 tiresias/__pycache__
 tiresias/model/*.pth
