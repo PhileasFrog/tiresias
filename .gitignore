@@ -5,6 +5,7 @@ tiresias/data/img/detection/extincteur/*
 tiresias/data/img/ocr/private/*
 tiresias/__pycache__
 tiresias/model/*.pth
+tiresias/model/work_dirs/*
 
 
 # Byte-compiled / optimized / DLL files
