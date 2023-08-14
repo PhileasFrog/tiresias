@@ -7,6 +7,7 @@ tiresias/__pycache__
 tiresias/model/*.pth
 tiresias/model/detection/*.py
 tiresias/model/work_dirs/*
+output/*
 
 
 # Byte-compiled / optimized / DLL files
